@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Security;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,11 +32,18 @@ namespace Treehouse.FitnessFrog.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> RegisterAsync(AccountRegisterViewModel viewModel)
+        public async Task<ActionResult> Register(AccountRegisterViewModel viewModel)
         {
             // If the ModelState is valid...
             if (ModelState.IsValid)
             {
+                // Validate if the provided email address is already in use.
+                var existingUser = await _userManager.FindByEmailAsync(viewModel.Email);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("Email", $"The provided email address '{viewModel.Email}' has already been used to register an account. Please sign-in using your existing account.");
+                }
+
                 // Instantiate a User object
                 var user = new User { UserName = viewModel.Email, Email = viewModel.Email };
 
