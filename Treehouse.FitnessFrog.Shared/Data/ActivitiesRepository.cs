@@ -15,16 +15,16 @@ namespace Treehouse.FitnessFrog.Shared.Data
         {
         }
 
-        public override Activity Get(int id, bool includeRelatedEntities = true)
-        {
-            throw new NotImplementedException();
-        }
+        //public override Activity Get(int id, bool includeRelatedEntities = true)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Returns a collection of activities.
         /// </summary>
         /// <returns>A list of activities.</returns>
-        public override IList<Activity> GetList()
+        public IList<Activity> GetList()
         {
             return Context.Activities
                 .OrderBy(a => a.Name)

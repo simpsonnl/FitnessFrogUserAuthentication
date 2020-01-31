@@ -20,9 +20,10 @@ namespace Treehouse.FitnessFrog.Shared.Data
         /// Returns a single entry for the provided ID.
         /// </summary>
         /// <param name="id">The ID for the entry to return.</param>
+        /// <param name="userId">The user ID for the entry to return.</param>
         /// <param name="includeRelatedEntities">Indicates whether or not to include related entities.</param>
         /// <returns>An entry.</returns>
-        public override Entry Get(int id, bool includeRelatedEntities = true)
+        public Entry Get(int id, string userId, bool includeRelatedEntities = true)
         {
             var entries = Context.Entries.AsQueryable();
 
@@ -33,7 +34,7 @@ namespace Treehouse.FitnessFrog.Shared.Data
             }
 
             return entries
-                .Where(e => e.Id == id)
+                .Where(e => e.Id == id && e.UserId == userId)
                 .SingleOrDefault();
         }
 
@@ -41,13 +42,27 @@ namespace Treehouse.FitnessFrog.Shared.Data
         /// Returns a collection of entries.
         /// </summary>
         /// <returns>A list of entries.</returns>
-        public override IList<Entry> GetList()
+        public IList<Entry> GetList(string userId)
         {
             return Context.Entries
                 .Include(e => e.Activity)
+                .Where(e => e.UserId == userId)
                 .OrderByDescending(e => e.Date)
                 .ThenByDescending(e => e.Id)
                 .ToList();
+        }
+
+        /// <summary>
+        /// Determines if an entry is owned by the provided user ID.
+        /// </summary>
+        /// <param name="id">The entry ID to check.</param>
+        /// <param name="userId">The user ID that should own the entry.</param>
+        /// <returns>Returns a boolean indicating if the user ID owns the entry.</returns>
+        public bool EntryOwnedByUserId(int id, string userId)
+        {
+            return Context.Entries
+                .Where(e => e.Id == id && e.UserId == userId)
+                .Count() == 1;
         }
     }
 }
