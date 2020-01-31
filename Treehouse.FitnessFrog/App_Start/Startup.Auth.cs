@@ -17,7 +17,9 @@ namespace Treehouse.FitnessFrog
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/SignIn"),
-                Provider = new CookieAuthenticationProvider()
+                Provider = new CookieAuthenticationProvider(),
+                CookieSecure = CookieSecureOption.Always,
+                CookieHttpOnly = true
             });
         }
     }

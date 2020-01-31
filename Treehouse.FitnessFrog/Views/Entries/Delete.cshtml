@@ -51,6 +51,7 @@
 
         @using (Html.BeginForm())
         {
+            @Html.AntiForgeryToken()
             <div class="pad-top">
                 <button type="submit" class="btn btn-danger btn-lg margin-right">
                     <span class="glyphicon glyphicon-trash"></span> Delete
