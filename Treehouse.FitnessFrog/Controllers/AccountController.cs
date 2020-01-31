@@ -28,10 +28,13 @@ namespace Treehouse.FitnessFrog.Controllers
             _signInManager = signInManager;
             _authenticationManager = authenticationManager;
         }
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Register(AccountRegisterViewModel viewModel)
         {
@@ -71,11 +74,13 @@ namespace Treehouse.FitnessFrog.Controllers
             return View(viewModel);
         }
 
+        [AllowAnonymous]
         public ActionResult SignIn()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> SignIn(AccountSignInViewModel viewModel)
         {
