@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,47 @@ namespace Treehouse.FitnessFrog.Controllers
                 }
             }
             return View(viewModel);
+        }
+
+        public ActionResult SignIn()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SignIn(AccountSignInViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            // Sign-in the user
+            var result = await _signInManager.PasswordSignInAsync(
+                viewModel.Email, viewModel.Password, viewModel.RememberMe, shouldLockout: false);
+
+            // Check the result
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToAction("Index", "Entries");
+                case SignInStatus.Failure:
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View(viewModel);
+                case SignInStatus.LockedOut:
+                case SignInStatus.RequiresVerification:
+                    throw new NotImplementedException("Identity feature not implemented.");
+                default:
+                    throw new Exception("Unexpected Microsoft.AspNet.Identity.Owin.SignInStatus enum value: " + result);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SignOut()
+        {
+            _authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            return RedirectToAction("Index", "Entries");
         }
     }
 }

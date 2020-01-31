@@ -184,6 +184,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AccountRegisterViewModel.cs" />
+    <Compile Include="ViewModels\AccountSignInViewModel.cs" />
     <Compile Include="ViewModels\EntriesAddViewModel.cs" />
     <Compile Include="ViewModels\EntriesBaseViewModel.cs" />
     <Compile Include="ViewModels\EntriesEditViewModel.cs" />
@@ -203,6 +204,8 @@
     <Content Include="Views\Shared\_Logo.cshtml" />
     <Content Include="Views\Entries\_EntryForm.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\SignIn.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
